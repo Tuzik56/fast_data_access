@@ -2,7 +2,7 @@ import time
 import random
 
 
-print("--- Задание 2: Доступ по индексу и линейный поиск ---")
+print("----- Задание 2: Доступ по индексу и линейный поиск -----")
 
 n = 100000
 numbers = list(range(n))
@@ -67,7 +67,7 @@ print(f"Отсутствующий элемент: {time_search_missing:.8f} с�
 ########################################################################################################################
 
 
-print("--- Задание 3: Доступ по ключу ---")
+print("----- Задание 3: Доступ по ключу -----")
 
 n = 10000
 ids = random.sample(range(1, 20001), n)
@@ -97,9 +97,73 @@ dict_search_time = time.perf_counter() - start_time
 
 print(f"Время поиска в списке: {list_search_time:.5f} сек")
 print(f"Время поиска в словаре: {dict_search_time:.5f} сек")
-print(f"Словарь быстрее списка в {list_search_time / dict_search_time:.1f} раз")
+print(f"Словарь быстрее списка в {list_search_time / dict_search_time:.1f} раз\n")
 
 
 ########################################################################################################################
 
 
+print("----- Задание 4: Исследование функции hash() -----")
+
+
+def bucket_index(key, table_size):
+    return abs(hash(key)) % table_size
+
+
+int_key = 50
+str_key = "hello"
+
+print(f"Хеш {int_key}: {hash(int_key)}")
+print(f"Хеш '{str_key}': {hash(str_key)}")
+
+print(f"Повторный хеш {int_key}: {hash(int_key)}")
+print(f"Повторный хеш '{str_key}': {hash(str_key)}\n")
+
+table_size = 10
+
+keys = [
+    10,
+    25,
+    37,
+    42,
+    55,
+    99,
+    100,
+    2026,
+    777,
+    123,
+    "apple",
+    "banana",
+    "cherry",
+    "python",
+    "code",
+    "data",
+    "hash",
+    "table",
+    "index",
+    "bucket",
+    "test",
+    "user",
+    "admin",
+    "key",
+    "value",
+    "list",
+    "dict",
+    "set",
+    "tuple",
+    "none",
+    "true",
+    "false",
+]
+
+buckets = {i: [] for i in range(table_size)}
+
+for k in keys:
+    idx = bucket_index(k, table_size)
+    buckets[idx].append(k)
+
+for idx, b_keys in buckets.items():
+    print(f"Корзина {idx}: {b_keys}")
+
+
+########################################################################################################################
