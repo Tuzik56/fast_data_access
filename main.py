@@ -172,16 +172,45 @@ for idx, b_keys in buckets.items():
 
 print("\n----- Задание 5: Простая хеш-таблица методом цепочек -----")
 
-hash_table = HashTable(size=5)
+ht = HashTable(size=5)
 
-hash_table.set("apple", 100)
-hash_table.set("banana", 200)
-hash_table.set("orange", 300)
-hash_table.set(5, "Пять")
-hash_table.set(10, "Десять")
-hash_table.set(15, "Пятнадцать")
+ht.set("apple", 100)
+ht.set("banana", 200)
+ht.set("orange", 300)
+ht.set(5, "Пять")
+ht.set(10, "Десять")
+ht.set(15, "Пятнадцать")
 
-print(hash_table)
+print(ht)
 
 
 ########################################################################################################################
+
+
+print("\n----- Задание 6: Коэффициент заполнения и коллизии -----")
+
+num_elements = 500
+sizes = [10, 100, 1000]
+random_keys = set()
+
+while len(random_keys) < num_elements:
+    if random.random() > 0.5:
+        random_keys.add(random.randint(1, 1000000))
+    else:
+        random_keys.add(f"key_{random.randint(1, 1000000)}")
+
+print(f"{'Размер':<12} | {'Заполнение':<12} | {'Коллизии':<12} | {'Макс. цепочка':<12}")
+print("-" * 58)
+
+for size in sizes:
+    ht = HashTable(size=size)
+
+    for key in random_keys:
+        ht.set(key, "value")
+
+    print(f"{ht.size:<12} | {ht.load_factor:<12} | {ht.collision_count():<12} | {ht.max_chain_length():<12}")
+
+
+########################################################################################################################
+
+
