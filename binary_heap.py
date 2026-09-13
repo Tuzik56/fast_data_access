@@ -2,14 +2,38 @@ class MinHeap:
     def __init__(self, initial_data=None):
         self.data = list(initial_data) if initial_data else []
 
+
     def _parent_index(self, i):
         return (i - 1) // 2
+
 
     def _left_index(self, i):
         return 2 * i + 1
 
+
     def _right_index(self, i):
         return 2 * i + 2
+
+
+    def _sift_up(self, index):
+        while index > 0:
+            p_idx = self._parent_index(index)
+            if self.data[index] < self.data[p_idx]:
+
+                self.data[index], self.data[p_idx] = (
+                    self.data[p_idx],
+                    self.data[index],
+                )
+
+                index = p_idx
+            else:
+                break
+
+
+    def push(self, value):
+        self.data.append(value)
+        self._sift_up(len(self.data) - 1)
+
 
     def display_relations(self):
         n = len(self.data)

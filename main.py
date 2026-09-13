@@ -224,3 +224,12 @@ heap.display_relations()
 
 ########################################################################################################################
 
+
+print("\n----- Задание 8: Реализация sift up и вставки -----")
+
+heap = MinHeap()
+values_to_add = [10, 4, 7, 1, 9, 3]
+
+for val in values_to_add:
+    heap.push(val)
+    print(f"Добавлено: {val:<2} | data: {heap.data}")
