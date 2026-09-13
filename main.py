@@ -1,5 +1,6 @@
 import time
 import random
+from hash_table import HashTable
 
 
 print("----- Задание 2: Доступ по индексу и линейный поиск -----")
@@ -164,6 +165,23 @@ for k in keys:
 
 for idx, b_keys in buckets.items():
     print(f"Корзина {idx}: {b_keys}")
+
+
+########################################################################################################################
+
+
+print("\n----- Задание 5: Простая хеш-таблица методом цепочек -----")
+
+hash_table = HashTable(size=5)
+
+hash_table.set("apple", 100)
+hash_table.set("banana", 200)
+hash_table.set("orange", 300)
+hash_table.set(5, "Пять")
+hash_table.set(10, "Десять")
+hash_table.set(15, "Пятнадцать")
+
+print(hash_table)
 
 
 ########################################################################################################################
