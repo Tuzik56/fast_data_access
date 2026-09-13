@@ -233,3 +233,19 @@ values_to_add = [10, 4, 7, 1, 9, 3]
 for val in values_to_add:
     heap.push(val)
     print(f"Добавлено: {val:<2} | data: {heap.data}")
+
+
+########################################################################################################################
+
+
+print("\n----- Задание 9: Реализация sift down и извлечения корня -----")
+
+extracted_elements = []
+
+while heap.data:
+    root = heap.data[0]
+    popped = heap.pop()
+    extracted_elements.append(popped)
+    print(f"Извлечено: {popped:<2} | data: {heap.data}")
+
+print(f"\nПорядок извлечения: {extracted_elements}")

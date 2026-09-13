@@ -30,9 +30,46 @@ class MinHeap:
                 break
 
 
+    def _sift_down(self, index):
+        n = len(self.data)
+
+        while True:
+            left = self._left_index(index)
+            right = self._right_index(index)
+            smallest = index
+
+            if left < n and self.data[left] < self.data[smallest]:
+                smallest = left
+            if right < n and self.data[right] < self.data[smallest]:
+                smallest = right
+
+            if smallest == index:
+                break
+
+            self.data[index], self.data[smallest] = (
+                self.data[smallest],
+                self.data[index],
+            )
+            index = smallest
+
+
     def push(self, value):
         self.data.append(value)
         self._sift_up(len(self.data) - 1)
+
+
+    def pop(self):
+        if not self.data:
+            raise IndexError("Куча пуста")
+
+        min_value = self.data[0]
+        last_value = self.data.pop()
+
+        if self.data:
+            self.data[0] = last_value
+            self._sift_down(0)
+
+        return min_value
 
 
     def display_relations(self):
