@@ -1,5 +1,6 @@
 import time
 import random
+import heapq
 from hash_table import HashTable
 from binary_heap import MinHeap
 
@@ -249,3 +250,40 @@ while heap.data:
     print(f"Извлечено: {popped:<2} | data: {heap.data}")
 
 print(f"\nПорядок извлечения: {extracted_elements}")
+
+
+########################################################################################################################
+
+
+print("\n----- Задание 10: Приоритетная очередь -----")
+
+priority_queue = []
+tasks = [
+    (3, "Попить"),
+    (1, "Поесть"),
+    (5, "Встать"),
+    (2, "Поспать"),
+    (7, "Лечь обратно"),
+    (4, "Доспать"),
+    (8, "Перевернуться на другой бок"),
+    (6, "Доесть"),
+]
+
+for task in tasks:
+    heapq.heappush(priority_queue, task)
+
+print("Порядок обработки задач:")
+while priority_queue:
+    priority, description = heapq.heappop(priority_queue)
+    print(f"Приоритет: {priority} | Задача: {description}")
+
+priority_queue = []
+heapq.heappush(priority_queue, (2, "Дышать"))
+heapq.heappush(priority_queue, (2, "Улюлю"))
+heapq.heappush(priority_queue, (2, "Моргать"))
+
+print("\nПорядок обработки задач с одинаковым приоритетом:")
+while priority_queue:
+    p, d = heapq.heappop(priority_queue)
+    print(f"Приоритет: {p} | {d}")
+
