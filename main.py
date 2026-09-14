@@ -371,3 +371,110 @@ for n in n_values:
 
         print(f"N = {n:<4} | K = {k:<5}| Полная сортировка: {full_sort_time:.6f} сек | Куча: {heap_sort_time:.6f} сек")
 
+
+########################################################################################################################
+
+
+print("\n----- Задание 13: Самостоятельная работа -----")
+
+
+class Participant:
+    def __init__(self, pid, name, score):
+        self.id = pid
+        self.name = name
+        self.score = score
+
+    def __repr__(self):
+        return f"ID: {self.id}, Имя: {self.name}, Результат: {self.score}"
+
+
+class CompetitionSystem:
+    def __init__(self):
+        # 1. Быстрый поиск по id
+        self.participants = {}
+        # 3. Очередь проверки с приоритетом
+        self.verification_queue = []
+
+    # Добавление и обновление данных участника
+    def add_or_update_participant(self, pid, name, score):
+        print(f"\n[Операция: Добавление/Обновление] Структура данных: Хеш-таблица (dict)")
+        self.participants[pid] = Participant(pid, name, score)
+        print(f"Участник {pid} успешно сохранен/обновлен.")
+
+    # Добавление в очередь проверки
+    def add_to_verification(self, priority, pid):
+        print(f"\n[Операция: Очередь проверки] Структура данных: Двоичная минимизирующая куча (heapq)")
+        # Меньший номер приоритета означает более срочную проверку,
+        # поэтому стандартная min-heap идеально подходит.
+        heapq.heappush(self.verification_queue, (priority, pid))
+        print(f"Добавлено в очередь проверки: Участник {pid} с приоритетом {priority}")
+
+    # Извлечение из очереди проверки
+    def process_verification(self):
+        print(f"\n[Операция: Извлечение на проверку] Структура данных: Двоичная минимизирующая куча (heapq)")
+        if not self.verification_queue:
+            print("Очередь проверки пуста.")
+            return None
+        priority, pid = heapq.heappop(self.verification_queue)
+        print(f"На проверку отправлен Участник {pid} (Приоритет: {priority})")
+        return pid
+
+    # Вывод Тор-К участников
+    def get_top_k(self, k):
+        print(f"\n[Операция: Топ-{k} участников] Структура данных: Двоичная минимизирующая куча (heapq)")
+
+        if not self.participants:
+            return []
+
+        min_heap = []
+
+        for p in self.participants.values():
+            if len(min_heap) < k:
+                # Храним кортеж (score, participant), куча сравнивает по первому элементу (score)
+                heapq.heappush(min_heap, (p.score, p.id, p))
+            else:
+                if p.score > min_heap[0][0]:
+                    heapq.heappushpop(min_heap, (p.score, p.id, p))
+
+        top_k = [heapq.heappop(min_heap)[2] for _ in range(len(min_heap))]
+        top_k.reverse()
+
+        return top_k
+
+
+if __name__ == "__main__":
+    sys = CompetitionSystem()
+
+    sys.add_or_update_participant(101, "Паша", 85)
+    sys.add_or_update_participant(102, "Петя", 95)
+    sys.add_or_update_participant(103, "Маша", 70)
+    sys.add_or_update_participant(104, "Вася", 99)
+    sys.add_or_update_participant(105, "Доброжир", 92)
+
+    sys.add_to_verification(3, 101)
+    sys.add_to_verification(1, 103)
+    sys.add_to_verification(2, 102)
+
+    sys.process_verification()
+    sys.process_verification()
+
+    print("\nВывод Топ-3 участников")
+    top_3 = sys.get_top_k(3)
+    for index, p in enumerate(top_3, start=1):
+        print(f"{index} место - {p}")
+
+
+"""Поиск и обновление по id - dict
+dict реализован как хеш-таблица. Она обеспечивает среднюю скорость поиска, 
+добавления и обновления записей за константное время O(1). Это позволяет мгновенно получать или изменять 
+данные участника по его уникальному идентификатору."""
+
+"""Очередь проверки - heapq 
+heapq реализована на базе двоичной кучи. Корень min-кучи всегда содержит элемент с минимальным значением 
+(более высоким приоритетом). Добавление и извлечение выполняются за O(log N), что эффективнее сортировки
+списка при изменении."""
+
+"""Тор-K алгоритм - куча размера K
+Вместо полной сортировки всех N элементов используется куча размером не более K. Обходим всех участников за O(N) 
+и если текущий результат больше минимального в куче, на место корня вставляем новый элемент за O(log K). 
+Итоговая сложность алгоритма составляет O(N log K), что быстрее полной сортировки."""
