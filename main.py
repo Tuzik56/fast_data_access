@@ -287,3 +287,48 @@ while priority_queue:
     p, d = heapq.heappop(priority_queue)
     print(f"Приоритет: {p} | {d}")
 
+
+priority_queue = []
+task_counter = 0
+
+def add_task(queue, priority, description):
+    global task_counter
+    # Кладем кортеж из 3 элементов
+    heapq.heappush(queue, (priority, task_counter, description))
+    task_counter += 1
+
+add_task(priority_queue, 2, "Дышать")
+add_task(priority_queue, 2, "Улюлю")
+add_task(priority_queue, 2, "Моргать")
+
+print("\nПорядок извлечения с счетчиком:")
+while priority_queue:
+    priority, count, description = heapq.heappop(priority_queue)
+    print(f"Приоритет: {priority} | Порядок: {count} | Задача: {description}")
+
+
+########################################################################################################################
+
+
+print("\n----- Задание 11: Top-K с полной сортировкой -----")
+
+N = 100000
+k_values = [10, 100, 1000]
+results_full_sort = []
+data = [random.randint(1, 1000000) for _ in range(N)]
+
+for k in k_values:
+    start_time = time.perf_counter()
+
+    top_k_full = sorted(data, reverse=True)[:k]
+
+    execution_time = time.perf_counter() - start_time
+    results_full_sort.append(execution_time)
+
+    print(f"K = {k}: {execution_time:.6f} сек")
+
+
+########################################################################################################################
+
+
+
