@@ -314,21 +314,60 @@ print("\n----- Задание 11: Top-K с полной сортировкой -
 
 N = 100000
 k_values = [10, 100, 1000]
-results_full_sort = []
 data = [random.randint(1, 1000000) for _ in range(N)]
 
-for k in k_values:
+
+def full_sort(data, k):
     start_time = time.perf_counter()
-
     top_k_full = sorted(data, reverse=True)[:k]
-
     execution_time = time.perf_counter() - start_time
-    results_full_sort.append(execution_time)
 
-    print(f"K = {k}: {execution_time:.6f} сек")
+    return execution_time
+
+
+for k in k_values:
+    execution_time = full_sort(data, k)
+    print(f"K = {k:<5}: {execution_time:.6f} сек")
 
 
 ########################################################################################################################
 
 
+print("\n----- Задание 12: Top-K с помощью кучи -----")
+
+
+def heap_sort(data, k):
+    heap = []
+    start_time = time.perf_counter()
+
+    for item in data:
+        if len(heap) < k:
+            heapq.heappush(heap, item)
+        elif item > heap[0]:
+            heapq.heappushpop(heap, item)
+
+    sorted(heap, reverse=True)
+
+    execution_time = time.perf_counter() - start_time
+
+    return execution_time
+
+
+for k in k_values:
+    execution_time = heap_sort(data, k)
+    print(f"K = {k:<5}: {execution_time:.6f} сек")
+
+print()
+
+n_values = [100000, 500000]
+k_values = [10, 100, 1000, 10000, 50000]
+
+for n in n_values:
+    data = [random.randint(1, 1000000) for _ in range(n)]
+
+    for k in k_values:
+        full_sort_time = full_sort(data, k)
+        heap_sort_time = heap_sort(data, k)
+
+        print(f"N = {n:<4} | K = {k:<5}| Полная сортировка: {full_sort_time:.6f} сек | Куча: {heap_sort_time:.6f} сек")
 
